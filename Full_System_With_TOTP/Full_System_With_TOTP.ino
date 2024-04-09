@@ -47,6 +47,8 @@ void loop() {
     // Vérifier si une commande est reçue via le port série
     if (Serial.available() > 0) {
       String commandLine = Serial.readStringUntil('\n');
+      Serial.println();
+      Serial.print("Commande reçue: ");
       Serial.println(commandLine);
       if (commandLine == "info") {
         showCurrentBalance();
