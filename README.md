@@ -12,6 +12,8 @@ Pour mettre en place la solution, le matériel nécessaire est le suivant:
 - 7 fils jumper
 - Badges MIFARE Classic
 
+![Branchement Arduino RC522](https://arduino-france.site/wp-content/uploads/2023/02/rfid-arduino.jpg)
+
 ### Fonctionnement:
 
 Le code utilise l'interface série avec un baudrate de 115200 pour recevoir des commandes et envoyer des informations.
