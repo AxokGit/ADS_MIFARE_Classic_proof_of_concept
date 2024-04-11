@@ -15,6 +15,8 @@ MFRC522 mfrc522(SS_PIN, RST_PIN);
 MFRC522::MIFARE_Key key;
 TOTP totp = TOTP((uint8_t*)secretKey, strlen(secretKey), 6);
 
+long int start_time;
+
 void updateBalance(float amount);
 void showCurrentBalance();
 void resetAndFormatMemory();
@@ -67,19 +69,27 @@ void loop() {
         float amount = numberString.toFloat();
 
         if (command == "add" && amount > 0) {
+          start_time = millis();
           if (checkAndUpdateTOTP()){
             Serial.println("Vérification TOTP réussie !");
             updateBalance(amount);
           } else {
             Serial.println("Vérification TOTP échouée.");
           }
+          Serial.print(F("Temps d'exécution de la commande: "));
+          Serial.print(millis() - start_time);
+          Serial.println(F(" ms"));
         } else if (command == "remove" && amount > 0) {
+          start_time = millis();
           if (checkAndUpdateTOTP()){
             Serial.println("Vérification TOTP réussie !");
             updateBalance(-amount);
           } else {
             Serial.println("Vérification TOTP échouée.");
           }
+          Serial.print(F("Temps d'exécution de la commande: "));
+          Serial.print(millis() - start_time);
+          Serial.println(F(" ms"));
         } else if (command == "set" && amount >= 0) {
           if (checkAndUpdateTOTP()){
             Serial.println("Vérification TOTP réussie !");

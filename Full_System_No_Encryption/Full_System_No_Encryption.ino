@@ -7,6 +7,8 @@
 MFRC522 mfrc522(SS_PIN, RST_PIN);
 MFRC522::MIFARE_Key key;
 
+long int start_time;
+
 void updateBalance(float amount);
 void showCurrentBalance();
 void resetAndFormatMemory();
@@ -53,13 +55,21 @@ void loop() {
         float amount = numberString.toFloat();
 
         if (command == "add" && amount > 0) {
-            updateBalance(amount);
+          start_time = millis();
+          updateBalance(amount);
+          Serial.print(F("Temps d'exécution de la commande: "));
+          Serial.print(millis() - start_time);
+          Serial.println(F(" ms"));
         } else if (command == "remove" && amount > 0) {
-            updateBalance(-amount);
+          start_time = millis();
+          updateBalance(-amount);
+          Serial.print(F("Temps d'exécution de la commande: "));
+          Serial.print(millis() - start_time);
+          Serial.println(F(" ms"));
         } else if (command == "set" && amount >= 0) {
-            setBalance(amount);
+          setBalance(amount);
         } else {
-            Serial.println(F("Commande non reconnue."));
+          Serial.println(F("Commande non reconnue."));
         } 
       } else {
         Serial.println(F("Format de commande incorrect."));

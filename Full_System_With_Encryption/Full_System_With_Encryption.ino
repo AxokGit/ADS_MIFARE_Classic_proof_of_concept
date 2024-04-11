@@ -14,6 +14,8 @@ AES128 aes128;
 uint8_t aesKey[16] = { 0x28, 0x3C, 0x1D, 0x3B, 0x46, 0x1F, 0x52, 0x5A, 0x5F, 0x18, 0x0E, 0x5C, 0x15, 0x2F, 0x52, 0x40 };
 CRC32 crc;
 
+long int start_time;
+
 void updateBalance(float amount);
 void showCurrentBalance();
 void setBalance(float amount);
@@ -61,17 +63,25 @@ void loop() {
         float amount = numberString.toFloat();
 
         if (command == "add" && amount > 0) {
+          start_time = millis();
           if (!verifyBalanceCRC()){
             Serial.println("Test CRC échoué. Badge corrompu");
             return;
           }
           updateBalance(amount);
+          Serial.print(F("Temps d'exécution de la commande: "));
+          Serial.print(millis() - start_time);
+          Serial.println(F(" ms"));
         } else if (command == "remove" && amount > 0) {
+          start_time = millis();
           if (!verifyBalanceCRC()){
             Serial.println("Test CRC échoué. Badge corrompu");
             return;
           }
           updateBalance(-amount);
+          Serial.print(F("Temps d'exécution de la commande: "));
+          Serial.print(millis() - start_time);
+          Serial.println(F(" ms"));
         } else if (command == "set" && amount >= 0) {
           setBalance(amount);
         } else {
